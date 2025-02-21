@@ -3,8 +3,8 @@ import { Document } from 'mongoose';
 
 export type UserDocument = User & Document;
 
-@Schema()
-export class User {
+@Schema({ versionKey: false })
+export class User extends Document {
     @Prop({ unique: true, required: true })
     email: string;
 
