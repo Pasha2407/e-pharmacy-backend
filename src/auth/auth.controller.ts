@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Headers, Post, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { CreateUserDto } from '../user/dto/create-user.dto';
@@ -19,7 +19,7 @@ export class AuthController {
 
     @UseGuards(JwtAuthGuard)
     @Post('/logout')
-    logout() {
-        return this.authService.logout()
+    logout(@Headers('authorization') authHeader: string) {
+        return this.authService.logout(authHeader);
     }
 }

@@ -11,7 +11,7 @@ export class AuthService {
         private jwtService: JwtService) { }
 
     private async generateToken(user: User): Promise<string> {
-        const payload = { id: user._id, email: user.email };
+        const payload = { _id: user._id, email: user.email };
         return this.jwtService.sign(payload);
     }
 
@@ -25,6 +25,12 @@ export class AuthService {
             return user;
         }
         throw new UnauthorizedException({ message: 'Incorrect email or password' })
+    }
+
+    private async extractUserId(authHeader: string): Promise<string> {
+        const token = authHeader.split(' ')[1];
+        const { _id } = this.jwtService.verify<{ _id: string }>(token);
+        return _id;
     }
 
     async registration(userDto: CreateUserDto) {
@@ -46,7 +52,9 @@ export class AuthService {
         return { token };
     }
 
-    async logout() {
-        return { message: 'Logout' };
+    async logout(authHeader: string): Promise<{ message: string }> {
+        const userId = await this.extractUserId(authHeader);
+        await this.userService.updateUser(userId, { token: null });
+        return { message: 'Logout successful' };
     }
 }
