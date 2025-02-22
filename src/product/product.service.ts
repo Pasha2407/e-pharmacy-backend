@@ -17,7 +17,7 @@ export class ProductService {
             products,
             currentPage: page,
             totalPages,
-            totalOrders: total
+            totalProducts: total
         };
     }
 }
