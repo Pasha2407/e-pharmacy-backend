@@ -7,10 +7,10 @@ export class ProductController {
 
     @Get()
     async getProducts(
-        @Query('name') name: string,
+        @Query('productName') productName: string,
         @Query('page') page: number,
         @Query('limit') limit: number
     ) {
-        return this.productService.getProducts(name, Number(page), Number(limit));
+        return this.productService.getProducts(productName, Number(page), Number(limit));
     }
 }
