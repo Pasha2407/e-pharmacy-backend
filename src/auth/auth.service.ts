@@ -33,6 +33,12 @@ export class AuthService {
         return _id;
     }
 
+    private async extractUserEmail(authHeader: string): Promise<string> {
+        const token = authHeader.split(' ')[1];
+        const { email } = this.jwtService.verify<{ email: string }>(token);
+        return email;
+    }
+
     async registration(userDto: CreateUserDto) {
         const candidate = await this.userService.getUserByEmail(userDto.email);
         if (candidate) {
@@ -56,5 +62,10 @@ export class AuthService {
         const userId = await this.extractUserId(authHeader);
         await this.userService.updateUser(userId, { token: null });
         return { message: 'Logout successful' };
+    }
+
+    async getUserEmail(authHeader: string) {
+        const userEmail = await this.extractUserEmail(authHeader);
+        return { userEmail };
     }
 }
