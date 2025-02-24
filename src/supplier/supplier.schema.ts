@@ -5,22 +5,22 @@ export type SupplierDocument = Supplier & Document;
 
 @Schema({ versionKey: false })
 export class Supplier {
-    @Prop({ required: true })
+    @Prop()
     name: string;
 
-    @Prop({ required: true })
+    @Prop()
     address: string;
 
-    @Prop({ required: true })
+    @Prop()
     suppliers: string;
 
-    @Prop({ required: true })
+    @Prop()
     date: string;
 
-    @Prop({ required: true })
+    @Prop()
     amount: string;
 
-    @Prop({ required: true })
+    @Prop()
     status: string;
 }
 

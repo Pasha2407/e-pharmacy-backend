@@ -5,10 +5,10 @@ export type ProductDocument = Product & Document;
 
 @Schema({ versionKey: false })
 export class Product {
-    @Prop({ required: true })
+    @Prop({ required: true, unique: true })
     id: string;
 
-    @Prop({ required: true })
+    @Prop({ required: true, unique: true })
     name: string;
 
     @Prop({ required: true })
