@@ -7,8 +7,8 @@ import { Supplier, SupplierDocument } from './supplier.schema';
 export class SupplierService {
     constructor(@InjectModel(Supplier.name) private supplierModel: Model<SupplierDocument>) { }
 
-    async getSuppliers(name: string) {
-        const filter = name ? { name: { $regex: name, $options: 'i' } } : {};
+    async getSuppliers(userName: string) {
+        const filter = userName ? { name: { $regex: userName, $options: 'i' } } : {};
         const suppliers = await this.supplierModel.find(filter).exec();
         return { suppliers };
     }

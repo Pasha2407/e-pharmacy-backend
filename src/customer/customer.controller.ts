@@ -7,10 +7,10 @@ export class CustomerController {
 
     @Get()
     async getOrders(
-        @Query('name') name: string,
+        @Query('userName') userName: string,
         @Query('page') page: number,
         @Query('limit') limit: number
     ) {
-        return this.customerService.getCustomers(name, Number(page), Number(limit));
+        return this.customerService.getCustomers(userName, Number(page), Number(limit));
     }
 }

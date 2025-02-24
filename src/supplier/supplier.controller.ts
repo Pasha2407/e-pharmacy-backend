@@ -6,7 +6,7 @@ export class SupplierController {
     constructor(private readonly orderService: SupplierService) { }
 
     @Get()
-    async getSuppliers(@Query('name') name: string,) {
-        return this.orderService.getSuppliers(name);
+    async getSuppliers(@Query('userName') userName: string,) {
+        return this.orderService.getSuppliers(userName);
     }
 }
