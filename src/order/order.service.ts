@@ -15,9 +15,7 @@ export class OrderService {
         const totalPages = Math.ceil(total / limit);
         return {
             orders,
-            currentPage: page,
             totalPages,
-            totalOrders: total
         };
     }
 }
