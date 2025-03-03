@@ -5,10 +5,11 @@ export type ProductDocument = Product & Document;
 
 @Schema({ versionKey: false })
 export class Product {
-    @Prop({ required: true, unique: true })
+
+    @Prop({ required: true })
     id: string;
 
-    @Prop({ required: true, unique: true })
+    @Prop({ required: true })
     name: string;
 
     @Prop({ required: true })
@@ -22,6 +23,9 @@ export class Product {
 
     @Prop({ required: true })
     category: string;
+
+    @Prop({ default: false })
+    isDelete: boolean;
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);
