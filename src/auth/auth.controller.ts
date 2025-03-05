@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Headers, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Headers, Post, Request, Res, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './jwt-auth.guard';
@@ -38,11 +38,14 @@ export class AuthController {
 
     @Get('google/callback')
     @UseGuards(AuthGuard('google'))
-    async googleAuthCallback() {
-        return `
-            <script>
-                window.opener.location.href = "http://localhost:3000/e-pharmacy/admin/dashboard";
-                window.close();
-            </script>
-        `}
+    async googleAuthCallback(@Request() req, @Res() res) {
+        const user = req.user;
+        const userData = JSON.stringify({ user: user.user });
+        res.send(`
+      <script>
+        window.opener.postMessage(${userData}, "http://localhost:3000");
+        window.close();
+      </script>
+    `);
+    }
 }
