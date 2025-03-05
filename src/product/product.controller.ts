@@ -16,20 +16,20 @@ export class ProductController {
         return this.productService.getProducts(productName, Number(page), Number(limit));
     }
 
-    @UseGuards(JwtAuthGuard)
     @Post()
+    @UseGuards(JwtAuthGuard)
     createProduct(@Body() productDto: CreateProductDto) {
         return this.productService.createProduct(productDto)
     }
 
-    @UseGuards(JwtAuthGuard)
     @Put(':id')
+    @UseGuards(JwtAuthGuard)
     async update(@Param('id') id: string, @Body() dto: Partial<CreateProductDto>) {
         return this.productService.updateProduct(id, dto);
     }
 
-    @UseGuards(JwtAuthGuard)
     @Patch(':id/delete')
+    @UseGuards(JwtAuthGuard)
     async deleteProduct(@Param('id') id: string) {
         return this.productService.deleteProduct(id);
     }

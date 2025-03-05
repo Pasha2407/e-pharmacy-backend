@@ -22,4 +22,13 @@ export class UserService {
         const user = await this.userModel.findByIdAndUpdate(userId, updateData, { new: true });
         return user;
     }
+
+    async findByGoogleId(googleId: string): Promise<User | null> {
+        return this.userModel.findOne({ googleId }).exec();
+    }
+
+    async createOAuthUser(userData: { googleId: string; email: string; }): Promise<User> {
+        const newUser = new this.userModel(userData);
+        return newUser.save();
+    }
 }

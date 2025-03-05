@@ -1,5 +1,7 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
+import { PassportModule } from '@nestjs/passport';
+import { GoogleStrategy } from './google.strategy';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { UserModule } from '../user/user.module';
@@ -12,9 +14,10 @@ import { UserModule } from '../user/user.module';
       signOptions: {
         expiresIn: '24h'
       }
-    })
+    }),
+    PassportModule.register({ defaultStrategy: 'jwt' })
   ],
-  providers: [AuthService],
+  providers: [AuthService, GoogleStrategy],
   controllers: [AuthController],
   exports: [
     AuthService,

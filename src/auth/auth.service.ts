@@ -1,3 +1,4 @@
+import { Profile } from 'passport-google-oauth20';
 import { HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from "@nestjs/jwt";
 import * as bcrypt from 'bcryptjs'
@@ -69,5 +70,19 @@ export class AuthService {
     async getUserEmail(authHeader: string) {
         const userEmail = await this.extractUserEmail(authHeader);
         return { userEmail };
+    }
+
+    async validateOAuthUser(profile: Profile) {
+        let user = await this.userService.findByGoogleId(profile.id);
+        if (!user) {
+            user = await this.userService.createOAuthUser({
+                googleId: profile.id,
+                email: profile.emails[0].value,
+            });
+        }
+        const token = this.jwtService.sign({ _id: user._id, email: user.email });
+        user.token = token;
+        await user.save();
+        return { user, token };
     }
 }
