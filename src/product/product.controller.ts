@@ -1,7 +1,6 @@
-import { Body, Controller, Get, Param, Patch, Post, Put, Query, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Param, Patch, Post, Put, Query } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('product')
 export class ProductController {
@@ -17,19 +16,19 @@ export class ProductController {
     }
 
     @Post()
-    @UseGuards(JwtAuthGuard)
     createProduct(@Body() productDto: CreateProductDto) {
         return this.productService.createProduct(productDto)
     }
 
     @Put(':id')
-    @UseGuards(JwtAuthGuard)
     async update(@Param('id') id: string, @Body() dto: Partial<CreateProductDto>) {
+        if (!dto || Object.keys(dto).length === 0) {
+            throw new BadRequestException('The data to update cannot be empty');
+        }
         return this.productService.updateProduct(id, dto);
     }
 
     @Patch(':id/delete')
-    @UseGuards(JwtAuthGuard)
     async deleteProduct(@Param('id') id: string) {
         return this.productService.deleteProduct(id);
     }
